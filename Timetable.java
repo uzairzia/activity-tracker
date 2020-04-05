@@ -1,6 +1,4 @@
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.Timer;
+import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.time.LocalTime;
@@ -16,11 +14,10 @@ public class Timetable {
 
     public static void main(String[] args) {
         Timetable timetable = new Timetable();
-        timetable.setWindowParameters(JFrame.EXIT_ON_CLOSE, 500, 500, true );
     }
 
     private Timetable() {
-
+        this.setWindowParameters(JFrame.EXIT_ON_CLOSE, 500, 500, true );
         this.displayCurrentTime();
     }
 
@@ -29,7 +26,9 @@ public class Timetable {
     }
 
     private void displayCurrentTime() {
-        timetableWindow.add(currentTimeLabel);
+        JPanel currentTimePanel = new JPanel();
+        currentTimePanel.add(currentTimeLabel);
+        timetableWindow.add(currentTimePanel);
 
         // set current time after every fixed interval
         ActionListener timerListener = new ActionListener() {
