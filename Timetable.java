@@ -7,10 +7,12 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
 
-public class Timetable extends JFrame {
+public class Timetable {
+    private JFrame timetableWindow = new JFrame("Timetable");
     // time format : "HH:mm"
-    DateTimeFormatter timeFormat = DateTimeFormatter.ofLocalizedTime(FormatStyle.MEDIUM);
-    JLabel currentTimeLabel = new JLabel();
+    private DateTimeFormatter timeFormat = DateTimeFormatter.ofLocalizedTime(FormatStyle.MEDIUM);
+    private JLabel currentTimeLabel = new JLabel();
+
 
     public static void main(String[] args) {
         Timetable timetable = new Timetable();
@@ -18,8 +20,6 @@ public class Timetable extends JFrame {
     }
 
     private Timetable() {
-        // window title
-        super("Timetable");
 
         this.displayCurrentTime();
     }
@@ -29,7 +29,7 @@ public class Timetable extends JFrame {
     }
 
     private void displayCurrentTime() {
-        this.add(currentTimeLabel);
+        timetableWindow.add(currentTimeLabel);
 
         // set current time after every fixed interval
         ActionListener timerListener = new ActionListener() {
@@ -42,14 +42,12 @@ public class Timetable extends JFrame {
         // do not wait initially
         currentTimeTimer.setInitialDelay(0);
         currentTimeTimer.start();
-
     }
 
     private void setWindowParameters(int onClose, int width, int height, boolean isVisible) {
         // operation to perform when window closed
-        this.setDefaultCloseOperation(onClose);
-
-        this.setSize(width,height);
-        this.setVisible(isVisible);
+        timetableWindow.setDefaultCloseOperation(onClose);
+        timetableWindow.setSize(width,height);
+        timetableWindow.setVisible(isVisible);
     }
 }
