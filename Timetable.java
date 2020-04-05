@@ -19,7 +19,7 @@ public class Timetable extends JFrame {
 
     private Timetable() {
         // window title
-        super("Calendar");
+        super("Timetable");
 
         this.displayCurrentTime();
     }
