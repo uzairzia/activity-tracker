@@ -6,11 +6,10 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
 
 public class Timetable {
-    private JFrame timetableWindow = new JFrame("Timetable");
+    private JFrame mainFrame = new JFrame("Timetable");
     // time format : "HH:mm"
     private DateTimeFormatter timeFormat = DateTimeFormatter.ofLocalizedTime(FormatStyle.MEDIUM);
     private JLabel currentTimeLabel = new JLabel();
-
 
     public static void main(String[] args) {
         Timetable timetable = new Timetable();
@@ -28,7 +27,7 @@ public class Timetable {
     private void displayCurrentTime() {
         JPanel currentTimePanel = new JPanel();
         currentTimePanel.add(currentTimeLabel);
-        timetableWindow.add(currentTimePanel);
+        mainFrame.add(currentTimePanel);
 
         // set current time after every fixed interval
         ActionListener timerListener = new ActionListener() {
@@ -45,8 +44,8 @@ public class Timetable {
 
     private void setWindowParameters(int onClose, int width, int height, boolean isVisible) {
         // operation to perform when window closed
-        timetableWindow.setDefaultCloseOperation(onClose);
-        timetableWindow.setSize(width,height);
-        timetableWindow.setVisible(isVisible);
+        mainFrame.setDefaultCloseOperation(onClose);
+        mainFrame.setSize(width,height);
+        mainFrame.setVisible(isVisible);
     }
 }
