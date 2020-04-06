@@ -22,6 +22,7 @@ public class Timetable {
         this.displayCurrentTime();
         this.displayStartTime();
         this.displayEndTime();
+        this.displayCurrentActivity();
         this.mainFrame.add(mainPanel, "Center");
     }
 
@@ -79,7 +80,20 @@ public class Timetable {
         gridConstraints.gridy = 1;
         mainPanel.add(endTimePanel, gridConstraints);
     }
-    
+
+    private void displayCurrentActivity() {
+        JPanel activityPanel = new JPanel();
+        // Dummy activity
+        String activityText = "Office";
+        JLabel activityLabel = new JLabel(activityText);
+        activityPanel.add(activityLabel);
+
+        GridBagConstraints gridConstraints = new GridBagConstraints();
+        gridConstraints.gridx = 1;
+        gridConstraints.gridy = 1;
+        mainPanel.add(activityPanel, gridConstraints);
+    }
+
     private void setWindowParameters(int onClose, int width, int height, boolean isVisible) {
         // operation to perform when window closed
         mainFrame.setDefaultCloseOperation(onClose);
