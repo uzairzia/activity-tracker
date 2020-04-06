@@ -5,6 +5,7 @@ import java.awt.event.ActionListener;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
+import java.awt.color.*;
 
 public class Timetable {
     private JFrame mainFrame = new JFrame("Timetable");
@@ -20,7 +21,8 @@ public class Timetable {
     private Timetable() {
         this.setWindowParameters(JFrame.EXIT_ON_CLOSE, 500, 500, true );
         this.displayCurrentTime();
-        this.mainFrame.add(mainPanel, "North");
+        this.displayStartTime();
+        this.mainFrame.add(mainPanel, "Center");
     }
 
     private void setCurrentTime() {
@@ -35,7 +37,7 @@ public class Timetable {
         // add panel displaying time to main panel
         GridBagConstraints gridConstraints = new GridBagConstraints();
         gridConstraints.gridx = 1;
-        gridConstraints.gridy = 1;
+        gridConstraints.gridy = 0;
         mainPanel.add(currentTimePanel, gridConstraints);
 
         // set current time after every fixed interval
@@ -49,6 +51,19 @@ public class Timetable {
         // do not wait initially
         currentTimeTimer.setInitialDelay(0);
         currentTimeTimer.start();
+    }
+
+    private void displayStartTime() {
+        JPanel startTimePanel = new JPanel();
+        // Dummy start time
+        String startTimeText = "Started: 06:00";
+        JLabel startTimeLabel = new JLabel(startTimeText);
+        startTimePanel.add(startTimeLabel);
+
+        GridBagConstraints gridConstraints = new GridBagConstraints();
+        gridConstraints.gridx = 0;
+        gridConstraints.gridy = 1;
+        mainPanel.add(startTimePanel, gridConstraints);
     }
 
     private void setWindowParameters(int onClose, int width, int height, boolean isVisible) {
