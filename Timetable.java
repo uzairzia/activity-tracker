@@ -10,8 +10,7 @@ import java.awt.color.*;
 public class Timetable {
     private JFrame mainFrame = new JFrame("Timetable");
     private JPanel mainPanel = new JPanel(new GridBagLayout());
-    // time format : "HH:mm"
-    private DateTimeFormatter timeFormat = DateTimeFormatter.ofLocalizedTime(FormatStyle.MEDIUM);
+    private DateTimeFormatter timeFormat = DateTimeFormatter.ofPattern("HH:mm:ss");
 
     public static void main(String[] args) {
         Timetable timetable = new Timetable();
