@@ -62,6 +62,7 @@ public class Timetable {
         JLabel startTimeLabel = new JLabel(startTimeText);
         startTimePanel.add(startTimeLabel);
 
+        // position the time panel in the grid of the main panel
         GridBagConstraints gridConstraints = new GridBagConstraints();
         gridConstraints.gridx = 0;
         gridConstraints.gridy = 1;
