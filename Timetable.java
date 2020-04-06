@@ -12,7 +12,6 @@ public class Timetable {
     private JPanel mainPanel = new JPanel(new GridBagLayout());
     // time format : "HH:mm"
     private DateTimeFormatter timeFormat = DateTimeFormatter.ofLocalizedTime(FormatStyle.MEDIUM);
-    private JLabel currentTimeLabel = new JLabel();
 
     public static void main(String[] args) {
         Timetable timetable = new Timetable();
@@ -26,13 +25,14 @@ public class Timetable {
         this.mainFrame.add(mainPanel, "Center");
     }
 
-    private void setCurrentTime() {
+    private void setCurrentTime(JLabel currentTimeLabel) {
         currentTimeLabel.setText(LocalTime.now().format(timeFormat));
     }
 
     private void displayCurrentTime() {
         // add label to panel
         JPanel currentTimePanel = new JPanel();
+        JLabel currentTimeLabel = new JLabel();
         currentTimePanel.add(currentTimeLabel);
 
         // add panel displaying time to main panel
@@ -45,7 +45,7 @@ public class Timetable {
         ActionListener timerListener = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                setCurrentTime();
+                setCurrentTime(currentTimeLabel);
             }
         };
         Timer currentTimeTimer = new Timer(1000, timerListener);
@@ -79,7 +79,7 @@ public class Timetable {
         gridConstraints.gridy = 1;
         mainPanel.add(endTimePanel, gridConstraints);
     }
-
+    
     private void setWindowParameters(int onClose, int width, int height, boolean isVisible) {
         // operation to perform when window closed
         mainFrame.setDefaultCloseOperation(onClose);
