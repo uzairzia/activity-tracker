@@ -23,10 +23,18 @@ public class Timetable {
         this.displayEndTime();
         this.displayCurrentActivity();
         this.mainFrame.add(mainPanel, "Center");
+
+        // for testing
+        Activity[] activities = this.getActivities();
     }
 
     private void setCurrentTime(JLabel currentTimeLabel) {
         currentTimeLabel.setText(LocalTime.now().format(timeFormat));
+    }
+
+    private Activity[] getActivities() {
+        Activity[] activities = Activity.getActivities();
+        return activities;
     }
 
     private void displayCurrentTime() {
