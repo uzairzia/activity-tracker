@@ -22,6 +22,7 @@ public class Timetable {
         this.setWindowParameters(JFrame.EXIT_ON_CLOSE, 500, 500, true );
         this.displayCurrentTime();
         this.displayStartTime();
+        this.displayEndTime();
         this.mainFrame.add(mainPanel, "Center");
     }
 
@@ -64,6 +65,19 @@ public class Timetable {
         gridConstraints.gridx = 0;
         gridConstraints.gridy = 1;
         mainPanel.add(startTimePanel, gridConstraints);
+    }
+
+    private void displayEndTime() {
+        JPanel endTimePanel = new JPanel();
+        // Dummy end time
+        String endTimeText = "Ended: 07:00";
+        JLabel endTimeLabel = new JLabel(endTimeText);
+        endTimePanel.add(endTimeLabel);
+
+        GridBagConstraints gridConstraints = new GridBagConstraints();
+        gridConstraints.gridx = 2;
+        gridConstraints.gridy = 1;
+        mainPanel.add(endTimePanel, gridConstraints);
     }
 
     private void setWindowParameters(int onClose, int width, int height, boolean isVisible) {
