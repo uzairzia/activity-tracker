@@ -1,4 +1,5 @@
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.time.LocalTime;
@@ -7,6 +8,7 @@ import java.time.format.FormatStyle;
 
 public class Timetable {
     private JFrame mainFrame = new JFrame("Timetable");
+    private JPanel mainPanel = new JPanel(new GridBagLayout());
     // time format : "HH:mm"
     private DateTimeFormatter timeFormat = DateTimeFormatter.ofLocalizedTime(FormatStyle.MEDIUM);
     private JLabel currentTimeLabel = new JLabel();
@@ -18,6 +20,7 @@ public class Timetable {
     private Timetable() {
         this.setWindowParameters(JFrame.EXIT_ON_CLOSE, 500, 500, true );
         this.displayCurrentTime();
+        this.mainFrame.add(mainPanel, "North");
     }
 
     private void setCurrentTime() {
@@ -25,9 +28,15 @@ public class Timetable {
     }
 
     private void displayCurrentTime() {
+        // add label to panel
         JPanel currentTimePanel = new JPanel();
         currentTimePanel.add(currentTimeLabel);
-        mainFrame.add(currentTimePanel);
+
+        // add panel displaying time to main panel
+        GridBagConstraints gridConstraints = new GridBagConstraints();
+        gridConstraints.gridx = 1;
+        gridConstraints.gridy = 1;
+        mainPanel.add(currentTimePanel, gridConstraints);
 
         // set current time after every fixed interval
         ActionListener timerListener = new ActionListener() {
