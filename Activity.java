@@ -59,10 +59,19 @@ public class Activity {
             // show an error window
         }
 
-        // for testing
-        System.out.println(fileLines);
-        String ab = fileLines.get(1);
-        System.out.println(ab);
+        for (String line : fileLines) {
+            if (line.isEmpty()) {
+                continue;
+            }
+            // individual activity fields are separated by commas in file
+            String[] activityData = line.split(",");
+
+            // 3 fields required to create Activity object
+            if (activityData.length != 3) {
+                continue;
+            }
+            activitiesList.add(new Activity(activityData));
+        }
     }
 
     public static Activity[] getActivities() {
