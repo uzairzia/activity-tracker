@@ -21,6 +21,25 @@ public class Activity {
         this.endTime = activityEndTime;
     }
 
+    private Activity(String[] activityData) {
+        // call the constructor with three parameters
+        this(activityData[1],
+                LocalTime.parse(activityData[0], timeFormat),
+                LocalTime.parse(activityData[2], timeFormat));
+    }
+
+    public String getName() {
+        return this.name;
+    }
+
+    public LocalTime getStartTime() {
+        return this.startTime;
+    }
+
+    public LocalTime getEndTime() {
+        return this.endTime;
+    }
+
     private static void readActivitiesFile() {
         File activityFile = new File(activitiesFileName);
         // to hold file data
