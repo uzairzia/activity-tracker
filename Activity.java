@@ -24,8 +24,8 @@ public class Activity {
     private Activity(String[] activityData) {
         // call the constructor with three parameters
         this(activityData[1],
-                LocalTime.parse(activityData[0], timeFormat),
-                LocalTime.parse(activityData[2], timeFormat));
+            LocalTime.parse(activityData[0], timeFormat),
+            LocalTime.parse(activityData[2], timeFormat));
     }
 
     public String getName() {
@@ -74,8 +74,8 @@ public class Activity {
         }
     }
 
-    public static Activity[] getActivities() {
-        readActivitiesFile();
-        return new Activity[2];
+    public static ArrayList<Activity> getActivities() {
+        Activity.readActivitiesFile();
+        return Activity.activitiesList;
     }
 }

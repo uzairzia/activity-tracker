@@ -6,6 +6,7 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
 import java.awt.color.*;
+import java.util.ArrayList;
 
 public class Timetable {
     private JFrame mainFrame = new JFrame("Timetable");
@@ -25,16 +26,18 @@ public class Timetable {
         this.mainFrame.add(mainPanel, "Center");
 
         // for testing
-        Activity[] activities = this.getActivities();
+        ArrayList<Activity> activitiesList = this.getActivities();
+        for (Activity act: activitiesList) {
+            System.out.println(act.getName());
+        }
     }
 
     private void setCurrentTime(JLabel currentTimeLabel) {
         currentTimeLabel.setText(LocalTime.now().format(timeFormat));
     }
 
-    private Activity[] getActivities() {
-        Activity[] activities = Activity.getActivities();
-        return activities;
+    private ArrayList<Activity> getActivities() {
+        return Activity.getActivities();
     }
 
     private void displayCurrentTime() {
