@@ -4,16 +4,18 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Activity {
     private String name;
     private LocalTime startTime;
     private LocalTime endTime;
-    private DateTimeFormatter timeFormat = DateTimeFormatter.ofPattern("HH:mm");
+    private static DateTimeFormatter timeFormat = DateTimeFormatter.ofPattern("HH:mm");
     private static String activitiesFileName = "activities.txt";
+    private static ArrayList<Activity> activitiesList = new ArrayList<>();
 
-    public Activity(String activityName, LocalTime activityStartTime, LocalTime activityEndTime) {
+    private Activity(String activityName, LocalTime activityStartTime, LocalTime activityEndTime) {
         this.name = activityName;
         this.startTime = activityStartTime;
         this.endTime = activityEndTime;
