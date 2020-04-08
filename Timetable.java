@@ -24,12 +24,12 @@ public class Timetable {
         this.mainFrame.add(mainPanel, "Center");
     }
 
-    private void setCurrentTime(JLabel currentTimeLabel) {
-        currentTimeLabel.setText(getCurrentTime().format(timeFormat));
+    private void setTime(LocalTime time, JLabel timeLabel) {
+        timeLabel.setText(time.format(timeFormat));
     }
 
-    private void setCurrentActivity(JLabel currentActivityLabel) {
-        currentActivityLabel.setText(getCurrentActivity().getName());
+    private void setCurrentActivityName(String currentActivityName, JLabel currentActivityLabel) {
+        currentActivityLabel.setText(currentActivityName);
     }
 
     private ArrayList<Activity> getActivities() {
@@ -78,7 +78,7 @@ public class Timetable {
         ActionListener timerListener = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                setCurrentTime(currentTimeLabel);
+                setTime(getCurrentTime(), currentTimeLabel);
             }
         };
         Timer currentTimeTimer = new Timer(1000, timerListener);
@@ -87,7 +87,7 @@ public class Timetable {
         currentTimeTimer.start();
     }
 
-    private void displayStartTime() {
+    private JLabel createStartTimeGrid() {
         JPanel startTimePanel = new JPanel();
         // Dummy start time
         String startTimeText = "Started: 06:00";
@@ -99,9 +99,11 @@ public class Timetable {
         gridConstraints.gridx = 0;
         gridConstraints.gridy = 1;
         mainPanel.add(startTimePanel, gridConstraints);
+
+        return startTimeLabel;
     }
 
-    private void displayEndTime() {
+    private JLabel createEndTimeGrid() {
         JPanel endTimePanel = new JPanel();
         // Dummy end time
         String endTimeText = "Ended: 07:00";
@@ -112,21 +114,34 @@ public class Timetable {
         gridConstraints.gridx = 2;
         gridConstraints.gridy = 1;
         mainPanel.add(endTimePanel, gridConstraints);
+
+        return endTimeLabel;
     }
 
-    private void displayCurrentActivity() {
-        JPanel activityPanel = new JPanel();
-        JLabel activityLabel = new JLabel();
-        activityPanel.add(activityLabel);
+    private JLabel createNameGrid() {
+        JPanel namePanel = new JPanel();
+        JLabel nameLabel = new JLabel();
+        namePanel.add(nameLabel);
 
         GridBagConstraints gridConstraints = new GridBagConstraints();
         gridConstraints.gridx = 1;
         gridConstraints.gridy = 1;
-        mainPanel.add(activityPanel, gridConstraints);
+        mainPanel.add(namePanel, gridConstraints);
 
-        this.setCurrentActivity(activityLabel);
-        this.displayStartTime();
-        this.displayEndTime();
+        return nameLabel;
+    }
+
+    private void displayCurrentActivity() {
+        // get current activity and display it's data
+        Activity currentActivity = this.getCurrentActivity();
+
+        JLabel activityNameLabel = this.createNameGrid();
+        JLabel activityStartTimeLabel = this.createStartTimeGrid();
+        JLabel activityEndTimeLabel = this.createEndTimeGrid();
+
+        this.setCurrentActivityName(currentActivity.getName(), activityNameLabel);
+        this.setTime(currentActivity.getStartTime(), activityStartTimeLabel);
+        this.setTime(currentActivity.getEndTime(), activityEndTimeLabel);
     }
 
     private void setWindowParameters(int onClose, int width, int height, boolean isVisible) {
