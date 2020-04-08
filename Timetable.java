@@ -59,6 +59,11 @@ public class Timetable {
             }
         }
 
+        // if no activity at this time
+        if (currentActivity == null) {
+            return Activity.getNoActivityInstance();
+        }
+
         return currentActivity;
     }
 

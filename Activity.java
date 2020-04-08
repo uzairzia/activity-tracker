@@ -79,4 +79,8 @@ public class Activity {
         Activity.readActivitiesFile();
         return Activity.activitiesList;
     }
+
+    public static Activity getNoActivityInstance() {
+        return new Activity("No Activity", LocalTime.MIDNIGHT, LocalTime.MIDNIGHT);
+    }
 }
