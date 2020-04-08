@@ -24,20 +24,44 @@ public class Timetable {
         this.displayEndTime();
         this.displayCurrentActivity();
         this.mainFrame.add(mainPanel, "Center");
-
-        // for testing
-        ArrayList<Activity> activitiesList = this.getActivities();
-        for (Activity act: activitiesList) {
-            System.out.println(act.getName());
-        }
     }
 
     private void setCurrentTime(JLabel currentTimeLabel) {
-        currentTimeLabel.setText(LocalTime.now().format(timeFormat));
+        currentTimeLabel.setText(getCurrentTime().format(timeFormat));
+    }
+
+    private void setCurrentActivity(JLabel currentActivityLabel) {
+        currentActivityLabel.setText(getCurrentActivity().getName());
     }
 
     private ArrayList<Activity> getActivities() {
         return Activity.getActivities();
+    }
+
+    private LocalTime getCurrentTime() {
+        return LocalTime.now();
+    }
+
+    private Activity getCurrentActivity() {
+        ArrayList<Activity> activitiesList = this.getActivities();
+        LocalTime currentTime = getCurrentTime();
+        Activity currentActivity = null;
+        LocalTime activityStartTime = null;
+        LocalTime activityEndTime = null;
+
+        for (Activity activity: activitiesList) {
+            activityStartTime = activity.getStartTime();
+            activityEndTime = activity.getEndTime();
+
+            // current time is between activity's start and end time
+            if (currentTime.isAfter(activityStartTime)
+                    && currentTime.isBefore(activityEndTime)) {
+                currentActivity = activity;
+                break;
+            }
+        }
+
+        return currentActivity;
     }
 
     private void displayCurrentTime() {
@@ -94,15 +118,15 @@ public class Timetable {
 
     private void displayCurrentActivity() {
         JPanel activityPanel = new JPanel();
-        // Dummy activity
-        String activityText = "Office";
-        JLabel activityLabel = new JLabel(activityText);
+        JLabel activityLabel = new JLabel();
         activityPanel.add(activityLabel);
 
         GridBagConstraints gridConstraints = new GridBagConstraints();
         gridConstraints.gridx = 1;
         gridConstraints.gridy = 1;
         mainPanel.add(activityPanel, gridConstraints);
+
+        this.setCurrentActivity(activityLabel);
     }
 
     private void setWindowParameters(int onClose, int width, int height, boolean isVisible) {

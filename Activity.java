@@ -13,6 +13,7 @@ public class Activity {
     private LocalTime endTime;
     private static DateTimeFormatter timeFormat = DateTimeFormatter.ofPattern("HH:mm");
     private static String activitiesFileName = "activities.txt";
+    // list of activities
     private static ArrayList<Activity> activitiesList = new ArrayList<>();
 
     private Activity(String activityName, LocalTime activityStartTime, LocalTime activityEndTime) {
