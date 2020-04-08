@@ -20,8 +20,6 @@ public class Timetable {
     private Timetable() {
         this.setWindowParameters(JFrame.EXIT_ON_CLOSE, 500, 500, true );
         this.displayCurrentTime();
-        this.displayStartTime();
-        this.displayEndTime();
         this.displayCurrentActivity();
         this.mainFrame.add(mainPanel, "Center");
     }
@@ -127,6 +125,8 @@ public class Timetable {
         mainPanel.add(activityPanel, gridConstraints);
 
         this.setCurrentActivity(activityLabel);
+        this.displayStartTime();
+        this.displayEndTime();
     }
 
     private void setWindowParameters(int onClose, int width, int height, boolean isVisible) {
