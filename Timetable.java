@@ -51,7 +51,7 @@ public class Timetable {
             activityStartTime = activity.getStartTime();
             activityEndTime = activity.getEndTime();
 
-            // current time is between activity's start and end time
+            // current time is between an activity's start and end time
             if (currentTime.isAfter(activityStartTime)
                     && currentTime.isBefore(activityEndTime)) {
                 currentActivity = activity;
