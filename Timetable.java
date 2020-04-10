@@ -26,6 +26,7 @@ public class Timetable {
         this.displayMenuBar();
 
         this.mainFrame.add(mainPanel, "Center");
+        this.mainFrame.pack();
     }
 
     private void setTime(LocalTime time, JLabel timeLabel) {
@@ -192,7 +193,6 @@ public class Timetable {
     private void setWindowParameters(int onClose, int width, int height, boolean isVisible) {
         // operation to perform when window closed
         mainFrame.setDefaultCloseOperation(onClose);
-        mainFrame.setSize(width,height);
         mainFrame.setVisible(isVisible);
     }
 }
