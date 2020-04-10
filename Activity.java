@@ -8,13 +8,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Activity {
-    private String name;
-    private LocalTime startTime;
-    private LocalTime endTime;
-    private static DateTimeFormatter timeFormat = DateTimeFormatter.ofPattern("HH:mm");
-    private static String activitiesFileName = "activities.txt";
+    private final String name;
+    private final LocalTime startTime;
+    private final LocalTime endTime;
+    private static final DateTimeFormatter timeFormat = DateTimeFormatter.ofPattern("HH:mm");
+    private static final String activitiesFileName = "activities.txt";
     // list of activities
-    private static ArrayList<Activity> activitiesList = new ArrayList<>();
+    private static final ArrayList<Activity> activitiesList = new ArrayList<>();
 
     private Activity(String activityName, LocalTime activityStartTime, LocalTime activityEndTime) {
         this.name = activityName;

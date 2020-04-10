@@ -9,9 +9,9 @@ import java.awt.color.*;
 import java.util.ArrayList;
 
 public class Timetable {
-    private JFrame mainFrame = new JFrame("Timetable");
-    private JPanel mainPanel = new JPanel(new GridBagLayout());
-    private DateTimeFormatter timeFormat = DateTimeFormatter.ofPattern("HH:mm:ss");
+    private final JFrame mainFrame = new JFrame("Timetable");
+    private final JPanel mainPanel = new JPanel(new GridBagLayout());
+    private final DateTimeFormatter timeFormat = DateTimeFormatter.ofPattern("HH:mm:ss");
 
     public static void main(String[] args) {
         Timetable timetable = new Timetable();
