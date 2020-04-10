@@ -80,6 +80,9 @@ public class Timetable {
         GridBagConstraints gridConstraints = new GridBagConstraints();
         gridConstraints.gridx = 1;
         gridConstraints.gridy = 0;
+        // span two columns
+        gridConstraints.gridwidth = 2;
+
         mainPanel.add(currentTimePanel, gridConstraints);
 
         // set current time after every fixed interval
@@ -135,11 +138,24 @@ public class Timetable {
         return endTimeLabel;
     }
 
-    private void displayActivity(Activity activity, int gridy) {
-        JLabel activityNameLabel = this.createNameGrid(1,gridy);
-        JLabel activityStartTimeLabel = this.createStartTimeGrid(0,gridy);
-        JLabel activityEndTimeLabel = this.createEndTimeGrid(2,gridy);
+    private void displayActivity(Activity activity, String activityType) {
+        // row of grid
+        int gridy;
 
+        // current or next activity
+        if (activityType.equals("current")) {
+            gridy = 1;
+        }
+        else {
+            gridy = 2;
+        }
+
+        JLabel activityTypeLabel = this.createNameGrid(0, gridy);
+        JLabel activityNameLabel = this.createNameGrid(2, gridy);
+        JLabel activityStartTimeLabel = this.createStartTimeGrid(1, gridy);
+        JLabel activityEndTimeLabel = this.createEndTimeGrid(3, gridy);
+
+        this.setActivityName(activityType, activityTypeLabel);
         this.setActivityName(activity.getName(), activityNameLabel);
         this.setTime(activity.getStartTime(), activityStartTimeLabel);
         this.setTime(activity.getEndTime(), activityEndTimeLabel);
@@ -147,13 +163,13 @@ public class Timetable {
 
     private void displayCurrentActivity() {
         Activity currentActivity = this.getCurrentActivity();
-        displayActivity(currentActivity, 1);
+        this.displayActivity(currentActivity, "current");
     }
 
     private void displayNextActivity() {
         // dummy test value
         Activity noActivityInstance = Activity.getNoActivityInstance();
-        displayActivity(noActivityInstance, 2);
+        this.displayActivity(noActivityInstance, "next");
     }
 
     private void setWindowParameters(int onClose, int width, int height, boolean isVisible) {
