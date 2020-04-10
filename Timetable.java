@@ -23,6 +23,7 @@ public class Timetable {
         this.displayCurrentTime();
         this.displayCurrentActivity();
         this.displayNextActivity();
+        this.displayMenuBar();
 
         this.mainFrame.add(mainPanel, "Center");
     }
@@ -170,6 +171,22 @@ public class Timetable {
         // dummy test value
         Activity noActivityInstance = Activity.getNoActivityInstance();
         this.displayActivity(noActivityInstance, "next");
+    }
+
+    private void displayMenuBar() {
+        // create menu bar and its items
+        JMenuBar menuBar = new JMenuBar();
+        JMenu actionsMenu = new JMenu("Actions");
+        JMenuItem addActivityItem = new JMenuItem("Add Activity");
+        JMenuItem editActivityItem = new JMenuItem("Edit Activity");
+        JMenuItem showAllActivitiesItem = new JMenuItem("Show All Activities");
+
+        actionsMenu.add(addActivityItem);
+        actionsMenu.add(editActivityItem);
+        actionsMenu.add(showAllActivitiesItem);
+        menuBar.add(actionsMenu);
+
+        this.mainFrame.setJMenuBar(menuBar);
     }
 
     private void setWindowParameters(int onClose, int width, int height, boolean isVisible) {
