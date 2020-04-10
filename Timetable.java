@@ -18,9 +18,12 @@ public class Timetable {
     }
 
     private Timetable() {
-        this.setWindowParameters(JFrame.EXIT_ON_CLOSE, 500, 500, true );
+        this.setWindowParameters(JFrame.EXIT_ON_CLOSE, 300, 100, true );
+
         this.displayCurrentTime();
         this.displayCurrentActivity();
+        this.displayNextActivity();
+
         this.mainFrame.add(mainPanel, "Center");
     }
 
@@ -28,8 +31,8 @@ public class Timetable {
         timeLabel.setText(time.format(timeFormat));
     }
 
-    private void setCurrentActivityName(String currentActivityName, JLabel currentActivityLabel) {
-        currentActivityLabel.setText(currentActivityName);
+    private void setActivityName(String activityName, JLabel activityLabel) {
+        activityLabel.setText(activityName);
     }
 
     private ArrayList<Activity> getActivities() {
@@ -92,57 +95,65 @@ public class Timetable {
         currentTimeTimer.start();
     }
 
-    private JLabel createNameGrid() {
+    private JLabel createNameGrid(int gridx, int gridy) {
         JPanel namePanel = new JPanel();
         JLabel nameLabel = new JLabel();
         namePanel.add(nameLabel);
 
         GridBagConstraints gridConstraints = new GridBagConstraints();
-        gridConstraints.gridx = 1;
-        gridConstraints.gridy = 1;
+        gridConstraints.gridx = gridx;
+        gridConstraints.gridy = gridy;
         mainPanel.add(namePanel, gridConstraints);
 
         return nameLabel;
     }
 
-    private JLabel createStartTimeGrid() {
+    private JLabel createStartTimeGrid(int gridx, int gridy) {
         JPanel startTimePanel = new JPanel();
         JLabel startTimeLabel = new JLabel();
         startTimePanel.add(startTimeLabel);
 
         // position the time panel in the grid of the main panel
         GridBagConstraints gridConstraints = new GridBagConstraints();
-        gridConstraints.gridx = 0;
-        gridConstraints.gridy = 1;
+        gridConstraints.gridx = gridx;
+        gridConstraints.gridy = gridy;
         mainPanel.add(startTimePanel, gridConstraints);
 
         return startTimeLabel;
     }
 
-    private JLabel createEndTimeGrid() {
+    private JLabel createEndTimeGrid(int gridx, int gridy) {
         JPanel endTimePanel = new JPanel();
         JLabel endTimeLabel = new JLabel();
         endTimePanel.add(endTimeLabel);
 
         GridBagConstraints gridConstraints = new GridBagConstraints();
-        gridConstraints.gridx = 2;
-        gridConstraints.gridy = 1;
+        gridConstraints.gridx = gridx;
+        gridConstraints.gridy = gridy;
         mainPanel.add(endTimePanel, gridConstraints);
 
         return endTimeLabel;
     }
 
+    private void displayActivity(Activity activity, int gridy) {
+        JLabel activityNameLabel = this.createNameGrid(1,gridy);
+        JLabel activityStartTimeLabel = this.createStartTimeGrid(0,gridy);
+        JLabel activityEndTimeLabel = this.createEndTimeGrid(2,gridy);
+
+        this.setActivityName(activity.getName(), activityNameLabel);
+        this.setTime(activity.getStartTime(), activityStartTimeLabel);
+        this.setTime(activity.getEndTime(), activityEndTimeLabel);
+    }
+
     private void displayCurrentActivity() {
-        // get current activity and display it's data
         Activity currentActivity = this.getCurrentActivity();
+        displayActivity(currentActivity, 1);
+    }
 
-        JLabel activityNameLabel = this.createNameGrid();
-        JLabel activityStartTimeLabel = this.createStartTimeGrid();
-        JLabel activityEndTimeLabel = this.createEndTimeGrid();
-
-        this.setCurrentActivityName(currentActivity.getName(), activityNameLabel);
-        this.setTime(currentActivity.getStartTime(), activityStartTimeLabel);
-        this.setTime(currentActivity.getEndTime(), activityEndTimeLabel);
+    private void displayNextActivity() {
+        // dummy test value
+        Activity noActivityInstance = Activity.getNoActivityInstance();
+        displayActivity(noActivityInstance, 2);
     }
 
     private void setWindowParameters(int onClose, int width, int height, boolean isVisible) {
