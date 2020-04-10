@@ -92,11 +92,22 @@ public class Timetable {
         currentTimeTimer.start();
     }
 
+    private JLabel createNameGrid() {
+        JPanel namePanel = new JPanel();
+        JLabel nameLabel = new JLabel();
+        namePanel.add(nameLabel);
+
+        GridBagConstraints gridConstraints = new GridBagConstraints();
+        gridConstraints.gridx = 1;
+        gridConstraints.gridy = 1;
+        mainPanel.add(namePanel, gridConstraints);
+
+        return nameLabel;
+    }
+
     private JLabel createStartTimeGrid() {
         JPanel startTimePanel = new JPanel();
-        // Dummy start time
-        String startTimeText = "Started: 06:00";
-        JLabel startTimeLabel = new JLabel(startTimeText);
+        JLabel startTimeLabel = new JLabel();
         startTimePanel.add(startTimeLabel);
 
         // position the time panel in the grid of the main panel
@@ -110,9 +121,7 @@ public class Timetable {
 
     private JLabel createEndTimeGrid() {
         JPanel endTimePanel = new JPanel();
-        // Dummy end time
-        String endTimeText = "Ended: 07:00";
-        JLabel endTimeLabel = new JLabel(endTimeText);
+        JLabel endTimeLabel = new JLabel();
         endTimePanel.add(endTimeLabel);
 
         GridBagConstraints gridConstraints = new GridBagConstraints();
@@ -121,19 +130,6 @@ public class Timetable {
         mainPanel.add(endTimePanel, gridConstraints);
 
         return endTimeLabel;
-    }
-
-    private JLabel createNameGrid() {
-        JPanel namePanel = new JPanel();
-        JLabel nameLabel = new JLabel();
-        namePanel.add(nameLabel);
-
-        GridBagConstraints gridConstraints = new GridBagConstraints();
-        gridConstraints.gridx = 1;
-        gridConstraints.gridy = 1;
-        mainPanel.add(namePanel, gridConstraints);
-
-        return nameLabel;
     }
 
     private void displayCurrentActivity() {
