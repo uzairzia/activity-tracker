@@ -55,9 +55,13 @@ public class Activity {
         }
         catch (IOException exception) {
             // show an error window
+            // return to avoid NullPointerException
+            return;
         }
         catch (SecurityException exception) {
             // show an error window
+            // return to avoid NullPointerException
+            return;
         }
 
         for (String line : fileLines) {
