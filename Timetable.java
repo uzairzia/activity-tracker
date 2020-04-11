@@ -100,7 +100,7 @@ public class Timetable {
         currentTimeTimer.start();
     }
 
-    private JLabel createNameGrid(int gridx, int gridy) {
+    private JLabel createNameGrid(int gridx, int gridy, JPanel mainPanel) {
         JPanel namePanel = new JPanel();
         JLabel nameLabel = new JLabel();
         namePanel.add(nameLabel);
@@ -122,7 +122,7 @@ public class Timetable {
         GridBagConstraints gridConstraints = new GridBagConstraints();
         gridConstraints.gridx = gridx;
         gridConstraints.gridy = gridy;
-        mainPanel.add(startTimePanel, gridConstraints);
+        this.mainPanel.add(startTimePanel, gridConstraints);
 
         return startTimeLabel;
     }
@@ -135,7 +135,7 @@ public class Timetable {
         GridBagConstraints gridConstraints = new GridBagConstraints();
         gridConstraints.gridx = gridx;
         gridConstraints.gridy = gridy;
-        mainPanel.add(endTimePanel, gridConstraints);
+        this.mainPanel.add(endTimePanel, gridConstraints);
 
         return endTimeLabel;
     }
@@ -152,8 +152,8 @@ public class Timetable {
             gridy = 2;
         }
 
-        JLabel activityTypeLabel = this.createNameGrid(0, gridy);
-        JLabel activityNameLabel = this.createNameGrid(2, gridy);
+        JLabel activityTypeLabel = this.createNameGrid(0, gridy, this.mainPanel);
+        JLabel activityNameLabel = this.createNameGrid(2, gridy, this.mainPanel);
         JLabel activityStartTimeLabel = this.createStartTimeGrid(1, gridy);
         JLabel activityEndTimeLabel = this.createEndTimeGrid(3, gridy);
 
