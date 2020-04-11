@@ -174,6 +174,26 @@ public class Timetable {
         this.displayActivity(noActivityInstance, "next");
     }
 
+    private void displayAddActivityFrame() {
+        JFrame addActivityFrame = new JFrame("Add Activity");
+        JPanel addActivityPanel = new JPanel(new GridBagLayout());
+        JLabel activityNameLabel = this.createNameGrid(0,0, addActivityPanel);
+        JLabel activityStartLabel = this.createNameGrid(0,1, addActivityPanel);
+        JLabel activityEndLabel = this.createNameGrid(0,2, addActivityPanel);
+
+        this.setActivityName("Name:",activityNameLabel);
+        this.setActivityName("Starts:",activityStartLabel);
+        this.setActivityName("Ends:",activityEndLabel);
+
+        addActivityFrame.add(addActivityPanel);
+
+        addActivityFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        addActivityFrame.setAlwaysOnTop(true);
+        addActivityFrame.setLocation(this.mainFrame.getLocation().x,this.mainFrame.getLocation().y);
+        addActivityFrame.setVisible(true);
+        addActivityFrame.pack();
+    }
+
     private void displayMenuBar() {
         // create menu bar and its items
         JMenuBar menuBar = new JMenuBar();
@@ -185,6 +205,14 @@ public class Timetable {
         actionsMenu.add(addActivityItem);
         actionsMenu.add(editActivityItem);
         actionsMenu.add(showAllActivitiesItem);
+
+        addActivityItem.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                displayAddActivityFrame();
+            }
+        });
+
         menuBar.add(actionsMenu);
 
         this.mainFrame.setJMenuBar(menuBar);
