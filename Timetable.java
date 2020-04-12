@@ -2,6 +2,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
@@ -151,6 +152,19 @@ public class Timetable {
         return textInputField;
     }
 
+    private JButton createButtonGrid(int gridx, int gridy, String buttonText, JPanel mainPanel) {
+        JPanel buttonPanel = new JPanel();
+        JButton button = new JButton(buttonText);
+        buttonPanel.add(button);
+
+        GridBagConstraints gridConstraints = new GridBagConstraints();
+        gridConstraints.gridx = gridx;
+        gridConstraints.gridy = gridy;
+        mainPanel.add(buttonPanel, gridConstraints);
+
+        return button;
+    }
+
     private void displayActivity(Activity activity, String activityType) {
         // row of grid
         int gridy;
@@ -188,12 +202,16 @@ public class Timetable {
     private void displayAddActivityFrame() {
         JFrame addActivityFrame = new JFrame("Add Activity");
         JPanel addActivityPanel = new JPanel(new GridBagLayout());
+
         JLabel activityNameLabel = this.createNameGrid(0,0, addActivityPanel);
         JTextField activityNameTextField = this.createTextInputGrid(1,0, addActivityPanel);
         JLabel activityStartLabel = this.createNameGrid(0,1, addActivityPanel);
         JTextField activityStartTextField = this.createTextInputGrid(1,1, addActivityPanel);
         JLabel activityEndLabel = this.createNameGrid(0,2, addActivityPanel);
         JTextField activityEndTextField = this.createTextInputGrid(1,2, addActivityPanel);
+
+        JButton cancelButton = this.createButtonGrid(0,3, "Cancel", addActivityPanel);
+        JButton okButton = this.createButtonGrid(1,3, "Ok", addActivityPanel);
 
         this.setActivityName("Name:",activityNameLabel);
         this.setActivityName("Starts:",activityStartLabel);
