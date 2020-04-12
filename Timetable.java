@@ -217,6 +217,13 @@ public class Timetable {
         this.setActivityName("Starts:",activityStartLabel);
         this.setActivityName("Ends:",activityEndLabel);
 
+        cancelButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                addActivityFrame.dispatchEvent(new WindowEvent(addActivityFrame, WindowEvent.WINDOW_CLOSING));
+            }
+        });
+
         addActivityFrame.add(addActivityPanel);
 
         addActivityFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
