@@ -199,6 +199,82 @@ public class Timetable {
         this.displayActivity(noActivityInstance, "next");
     }
 
+    private LocalTime createTimeObject(String timeText) {
+        LocalTime timeObject = null;
+        try {
+            timeObject = LocalTime.parse(timeText);
+        }
+        catch (Exception exception) {
+            // show error if entered time is invalid
+            JOptionPane.showMessageDialog(
+                    mainFrame,
+                    "Invalid time: \'" + timeText + "\' Please enter time in the format HH:mm",
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE
+            );
+        }
+
+        return timeObject;
+    }
+
+    private boolean isOverLappingStoredActivities(LocalTime newActivityStartTime, LocalTime newActivityEndTime) {
+        // midnight in between start and end
+        if (newActivityStartTime.isAfter(newActivityEndTime)) {
+            // check overlap from start time to midnight - 1 (23:59)
+            boolean isOverlappingBeforeMidnight =
+                    isOverLappingStoredActivities(newActivityStartTime, LocalTime.MIDNIGHT.minusMinutes(1));
+            // check overlap from midnight (00:00) to end time
+            boolean isOverlappingAfterMidnight =
+                    isOverLappingStoredActivities(LocalTime.MIDNIGHT,newActivityEndTime);
+
+            return isOverlappingBeforeMidnight || isOverlappingAfterMidnight;
+        }
+
+        ArrayList<Activity> activitiesList = this.getActivities();
+        // previous stored actvity
+        LocalTime storedActivityStartTime = null;
+        LocalTime storedActivityEndTime = null;
+
+        for (Activity activity : activitiesList) {
+            storedActivityStartTime = activity.getStartTime();
+            storedActivityEndTime = activity.getEndTime();
+
+            boolean isNewStartBeforeStoredStart = newActivityStartTime.isBefore(storedActivityStartTime);
+            boolean isNewEndAfterStoredEnd = newActivityEndTime.isAfter(storedActivityEndTime);
+            if (isNewStartBeforeStoredStart && isNewEndAfterStoredEnd ) {
+                return true;
+            }
+            else if (!isNewStartBeforeStoredStart && !isNewEndAfterStoredEnd) {
+                return true;
+            }
+
+            boolean isNewEndAfterStoredStart = newActivityEndTime.isAfter(storedActivityStartTime);
+            if (isNewStartBeforeStoredStart && isNewEndAfterStoredStart ) {
+                return true;
+            }
+
+            boolean isNewStartBeforeStoredEnd = newActivityStartTime.isBefore(storedActivityEndTime);
+            if (!isNewStartBeforeStoredStart && isNewStartBeforeStoredEnd) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private void verifyNewActivity(String startTimeText, String endTimeText) {
+        LocalTime newActivityStartTime = this.createTimeObject(startTimeText);
+        LocalTime newActivityEndTime = this.createTimeObject(endTimeText);
+
+        // object was not created due to invalid entry
+        if (newActivityStartTime == null || newActivityEndTime == null) {
+            return;
+        }
+
+        boolean isOverLappingStoredActivities = this.isOverLappingStoredActivities(newActivityStartTime,
+                                                                                newActivityEndTime);
+    }
+
     private void displayAddActivityFrame() {
         JFrame addActivityFrame = new JFrame("Add Activity");
         JPanel addActivityPanel = new JPanel(new GridBagLayout());
@@ -228,6 +304,7 @@ public class Timetable {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
                 // check and verify that no clashing event
+                verifyNewActivity(activityStartTextField.getText(), activityEndTextField.getText());
             }
         });
 
