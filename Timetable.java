@@ -217,61 +217,16 @@ public class Timetable {
         return timeObject;
     }
 
-    private boolean isOverLappingStoredActivities(LocalTime newActivityStartTime, LocalTime newActivityEndTime) {
-        // midnight in between start and end
-        if (newActivityStartTime.isAfter(newActivityEndTime)) {
-            // check overlap from start time to midnight - 1 (23:59)
-            boolean isOverlappingBeforeMidnight =
-                    isOverLappingStoredActivities(newActivityStartTime, LocalTime.MIDNIGHT.minusMinutes(1));
-            // check overlap from midnight (00:00) to end time
-            boolean isOverlappingAfterMidnight =
-                    isOverLappingStoredActivities(LocalTime.MIDNIGHT,newActivityEndTime);
-
-            return isOverlappingBeforeMidnight || isOverlappingAfterMidnight;
-        }
-
-        ArrayList<Activity> activitiesList = this.getActivities();
-        // previous stored actvity
-        LocalTime storedActivityStartTime = null;
-        LocalTime storedActivityEndTime = null;
-
-        for (Activity activity : activitiesList) {
-            storedActivityStartTime = activity.getStartTime();
-            storedActivityEndTime = activity.getEndTime();
-
-            boolean isNewStartBeforeStoredStart = newActivityStartTime.isBefore(storedActivityStartTime);
-            boolean isNewEndAfterStoredEnd = newActivityEndTime.isAfter(storedActivityEndTime);
-            if (isNewStartBeforeStoredStart && isNewEndAfterStoredEnd ) {
-                return true;
-            }
-            else if (!isNewStartBeforeStoredStart && !isNewEndAfterStoredEnd) {
-                return true;
-            }
-
-            boolean isNewEndAfterStoredStart = newActivityEndTime.isAfter(storedActivityStartTime);
-            if (isNewStartBeforeStoredStart && isNewEndAfterStoredStart ) {
-                return true;
-            }
-
-            boolean isNewStartBeforeStoredEnd = newActivityStartTime.isBefore(storedActivityEndTime);
-            if (!isNewStartBeforeStoredStart && isNewStartBeforeStoredEnd) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
     private boolean verifyNewActivity(String startTimeText, String endTimeText) {
         LocalTime newActivityStartTime = this.getTimeObject(startTimeText);
         LocalTime newActivityEndTime = this.getTimeObject(endTimeText);
 
-        // object was not created due to invalid entry
+        // object was not created due to invalid data
         if (newActivityStartTime == null || newActivityEndTime == null) {
             return false;
         }
 
-        return !(this.isOverLappingStoredActivities(newActivityStartTime, newActivityEndTime));
+        return !(Activity.isOverLappingStoredActivities(newActivityStartTime, newActivityEndTime));
     }
 
     private void displayAddActivityFrame() {

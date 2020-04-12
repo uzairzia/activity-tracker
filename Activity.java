@@ -87,4 +87,49 @@ public class Activity {
     public static Activity getNoActivityInstance() {
         return new Activity("No Activity", LocalTime.MIDNIGHT, LocalTime.MIDNIGHT);
     }
+
+    public static boolean isOverLappingStoredActivities(LocalTime newActivityStartTime, LocalTime newActivityEndTime) {
+        // midnight in between start and end
+        if (newActivityStartTime.isAfter(newActivityEndTime)) {
+            // check overlap from start time to midnight - 1 (23:59)
+            boolean isOverlappingBeforeMidnight =
+                    isOverLappingStoredActivities(newActivityStartTime, LocalTime.MIDNIGHT.minusMinutes(1));
+            // check overlap from midnight (00:00) to end time
+            boolean isOverlappingAfterMidnight =
+                    isOverLappingStoredActivities(LocalTime.MIDNIGHT,newActivityEndTime);
+
+            return isOverlappingBeforeMidnight || isOverlappingAfterMidnight;
+        }
+
+        ArrayList<Activity> activitiesList = getActivities();
+        // previous stored actvity
+        LocalTime storedActivityStartTime = null;
+        LocalTime storedActivityEndTime = null;
+
+        for (Activity activity : activitiesList) {
+            storedActivityStartTime = activity.getStartTime();
+            storedActivityEndTime = activity.getEndTime();
+
+            boolean isNewStartBeforeStoredStart = newActivityStartTime.isBefore(storedActivityStartTime);
+            boolean isNewEndAfterStoredEnd = newActivityEndTime.isAfter(storedActivityEndTime);
+            if (isNewStartBeforeStoredStart && isNewEndAfterStoredEnd ) {
+                return true;
+            }
+            else if (!isNewStartBeforeStoredStart && !isNewEndAfterStoredEnd) {
+                return true;
+            }
+
+            boolean isNewEndAfterStoredStart = newActivityEndTime.isAfter(storedActivityStartTime);
+            if (isNewStartBeforeStoredStart && isNewEndAfterStoredStart ) {
+                return true;
+            }
+
+            boolean isNewStartBeforeStoredEnd = newActivityStartTime.isBefore(storedActivityEndTime);
+            if (!isNewStartBeforeStoredStart && isNewStartBeforeStoredEnd) {
+                return true;
+            }
+        }
+
+        return false;
+    }
 }
