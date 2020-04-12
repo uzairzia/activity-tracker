@@ -224,6 +224,13 @@ public class Timetable {
             }
         });
 
+        okButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                // check and verify that no clashing event
+            }
+        });
+
         addActivityFrame.add(addActivityPanel);
 
         addActivityFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
