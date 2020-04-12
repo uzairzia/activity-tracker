@@ -137,6 +137,20 @@ public class Timetable {
         return endTimeLabel;
     }
 
+    private JTextField createTextInputGrid(int gridx, int gridy, JPanel mainPanel) {
+        JPanel textInputPanel = new JPanel();
+        JTextField textInputField = new JTextField();
+        textInputField.setColumns(10);
+        textInputPanel.add(textInputField);
+
+        GridBagConstraints gridConstraints = new GridBagConstraints();
+        gridConstraints.gridx = gridx;
+        gridConstraints.gridy = gridy;
+        mainPanel.add(textInputPanel, gridConstraints);
+
+        return textInputField;
+    }
+
     private void displayActivity(Activity activity, String activityType) {
         // row of grid
         int gridy;
@@ -175,8 +189,11 @@ public class Timetable {
         JFrame addActivityFrame = new JFrame("Add Activity");
         JPanel addActivityPanel = new JPanel(new GridBagLayout());
         JLabel activityNameLabel = this.createNameGrid(0,0, addActivityPanel);
+        JTextField activityNameTextField = this.createTextInputGrid(1,0, addActivityPanel);
         JLabel activityStartLabel = this.createNameGrid(0,1, addActivityPanel);
+        JTextField activityStartTextField = this.createTextInputGrid(1,1, addActivityPanel);
         JLabel activityEndLabel = this.createNameGrid(0,2, addActivityPanel);
+        JTextField activityEndTextField = this.createTextInputGrid(1,2, addActivityPanel);
 
         this.setActivityName("Name:",activityNameLabel);
         this.setActivityName("Starts:",activityStartLabel);
