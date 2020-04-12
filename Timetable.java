@@ -199,7 +199,7 @@ public class Timetable {
         this.displayActivity(noActivityInstance, "next");
     }
 
-    private LocalTime createTimeObject(String timeText) {
+    private LocalTime getTimeObject(String timeText) {
         LocalTime timeObject = null;
         try {
             timeObject = LocalTime.parse(timeText);
@@ -262,17 +262,16 @@ public class Timetable {
         return false;
     }
 
-    private void verifyNewActivity(String startTimeText, String endTimeText) {
-        LocalTime newActivityStartTime = this.createTimeObject(startTimeText);
-        LocalTime newActivityEndTime = this.createTimeObject(endTimeText);
+    private boolean verifyNewActivity(String startTimeText, String endTimeText) {
+        LocalTime newActivityStartTime = this.getTimeObject(startTimeText);
+        LocalTime newActivityEndTime = this.getTimeObject(endTimeText);
 
         // object was not created due to invalid entry
         if (newActivityStartTime == null || newActivityEndTime == null) {
-            return;
+            return false;
         }
 
-        boolean isOverLappingStoredActivities = this.isOverLappingStoredActivities(newActivityStartTime,
-                                                                                newActivityEndTime);
+        return !(this.isOverLappingStoredActivities(newActivityStartTime, newActivityEndTime));
     }
 
     private void displayAddActivityFrame() {
@@ -303,8 +302,10 @@ public class Timetable {
         okButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                // check and verify that no clashing event
-                verifyNewActivity(activityStartTextField.getText(), activityEndTextField.getText());
+                // validate activity data and verify that no clashing activity
+                if(verifyNewActivity(activityStartTextField.getText(), activityEndTextField.getText())) {
+                    //add activity
+                }
             }
         });
 
