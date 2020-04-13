@@ -217,7 +217,11 @@ public class Timetable {
         return timeObject;
     }
 
-    private boolean verifyNewActivity(String startTimeText, String endTimeText) {
+    private boolean verifyNewActivity(String nameText, String startTimeText, String endTimeText) {
+        if (nameText.trim().isEmpty()) {
+            return false;
+        }
+
         LocalTime newActivityStartTime = this.getTimeObject(startTimeText);
         if (newActivityStartTime == null) {
             return false;
@@ -265,7 +269,9 @@ public class Timetable {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
                 // validate activity data and verify that no clashing activity
-                if(verifyNewActivity(activityStartTextField.getText(), activityEndTextField.getText())) {
+                if(verifyNewActivity(activityNameTextField.getText(),
+                        activityStartTextField.getText(),
+                        activityEndTextField.getText())) {
                     Activity.addActivity(activityNameTextField.getText(),
                                 activityStartTextField.getText(),
                                 activityEndTextField.getText()
