@@ -110,11 +110,11 @@ public class Activity {
         }
     }
 
-    public static void addActivity(String name, String startTime, String endTime) {
-        Activity newActivity = new Activity(new String[]{name, startTime, endTime});
+    public static void addActivity(String[] activityData) {
+        Activity newActivity = new Activity(activityData);
 
         activitiesList.add(newActivity);
-        writeToActivitiesFile(name, startTime, endTime);
+        writeToActivitiesFile(activityData[0], activityData[1], activityData[2]);
     }
 
     public static ArrayList<Activity> getActivities() {

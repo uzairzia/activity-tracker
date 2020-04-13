@@ -217,8 +217,19 @@ public class Timetable {
         return timeObject;
     }
 
-    private boolean verifyNewActivity(String nameText, String startTimeText, String endTimeText) {
-        if (nameText.trim().isEmpty()) {
+    private String[] cleanInputStrings(String nameText, String startTimeText, String endTimeText) {
+        String nameTextCleaned = nameText.trim().replace(",","");
+        String startTimeTextCleaned = startTimeText.trim();
+        String endTimeTextCleaned = endTimeText.trim();
+        return new String[] {nameTextCleaned, startTimeTextCleaned, endTimeTextCleaned};
+    }
+
+    private boolean verifyNewActivity(String[] inputStrings) {
+        String nameText = inputStrings[0];
+        String startTimeText = inputStrings[1];
+        String endTimeText = inputStrings[2];
+
+        if (nameText.isEmpty()) {
             return false;
         }
 
@@ -231,7 +242,6 @@ public class Timetable {
         if (newActivityEndTime == null) {
             return false;
         }
-
 
         if (newActivityStartTime.equals(newActivityEndTime)) {
             return false;
@@ -268,14 +278,13 @@ public class Timetable {
         okButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                // validate activity data and verify that no clashing activity
-                if(verifyNewActivity(activityNameTextField.getText(),
-                        activityStartTextField.getText(),
-                        activityEndTextField.getText())) {
-                    Activity.addActivity(activityNameTextField.getText(),
+                String[] activityData =
+                        cleanInputStrings(activityNameTextField.getText(),
                                 activityStartTextField.getText(),
-                                activityEndTextField.getText()
-                    );
+                                activityEndTextField.getText());
+
+                if (verifyNewActivity(activityData)) {
+                    Activity.addActivity(activityData);
                     addActivityFrame.dispatchEvent(new WindowEvent(addActivityFrame, WindowEvent.WINDOW_CLOSING));
                 }
             }
