@@ -226,7 +226,7 @@ public class Timetable {
             return false;
         }
 
-        return !(Activity.isOverLappingStoredActivities(newActivityStartTime, newActivityEndTime));
+        return !(Activity.isOverLappingAnyActivity(newActivityStartTime, newActivityEndTime));
     }
 
     private void displayAddActivityFrame() {

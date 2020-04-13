@@ -126,15 +126,43 @@ public class Activity {
         return new Activity("No Activity", LocalTime.MIDNIGHT, LocalTime.MIDNIGHT);
     }
 
-    public static boolean isOverLappingStoredActivities(LocalTime newActivityStartTime, LocalTime newActivityEndTime) {
-        // midnight in between start and end
-        if (newActivityStartTime.isAfter(newActivityEndTime)) {
-            // check overlap from start time to midnight - 1 (23:59)
+    private static boolean isMidnightInBetween(LocalTime startTime, LocalTime endTime) {
+        return startTime.isAfter(endTime);
+    }
+
+    private static boolean isOverlappingThisActivity(LocalTime newActivityStartTime, LocalTime newActivityEndTime,
+                                        LocalTime storedActivityStartTime, LocalTime storedActivityEndTime) {
+        boolean isNewStartBeforeStoredStart = newActivityStartTime.isBefore(storedActivityStartTime);
+        boolean isNewEndAfterStoredEnd = newActivityEndTime.isAfter(storedActivityEndTime);
+        if (isNewStartBeforeStoredStart && isNewEndAfterStoredEnd ) {
+            return true;
+        }
+        else if (!isNewStartBeforeStoredStart && !isNewEndAfterStoredEnd) {
+            return true;
+        }
+
+        boolean isNewEndAfterStoredStart = newActivityEndTime.isAfter(storedActivityStartTime);
+        if (isNewStartBeforeStoredStart && isNewEndAfterStoredStart ) {
+            return true;
+        }
+
+        boolean isNewStartBeforeStoredEnd = newActivityStartTime.isBefore(storedActivityEndTime);
+        if (!isNewStartBeforeStoredStart && isNewStartBeforeStoredEnd) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public static boolean isOverLappingAnyActivity(LocalTime newActivityStartTime,
+                                                        LocalTime newActivityEndTime) {
+        if (isMidnightInBetween(newActivityStartTime, newActivityEndTime)) {
+            // from start time to midnight - 1 (23:59)
             boolean isOverlappingBeforeMidnight =
-                    isOverLappingStoredActivities(newActivityStartTime, LocalTime.MIDNIGHT.minusMinutes(1));
-            // check overlap from midnight (00:00) to end time
+                    isOverLappingAnyActivity(newActivityStartTime, LocalTime.MIDNIGHT.minusMinutes(1));
+            // from midnight (00:00) to end time
             boolean isOverlappingAfterMidnight =
-                    isOverLappingStoredActivities(LocalTime.MIDNIGHT,newActivityEndTime);
+                    isOverLappingAnyActivity(LocalTime.MIDNIGHT,newActivityEndTime);
 
             return isOverlappingBeforeMidnight || isOverlappingAfterMidnight;
         }
@@ -148,22 +176,22 @@ public class Activity {
             storedActivityStartTime = activity.getStartTime();
             storedActivityEndTime = activity.getEndTime();
 
-            boolean isNewStartBeforeStoredStart = newActivityStartTime.isBefore(storedActivityStartTime);
-            boolean isNewEndAfterStoredEnd = newActivityEndTime.isAfter(storedActivityEndTime);
-            if (isNewStartBeforeStoredStart && isNewEndAfterStoredEnd ) {
-                return true;
-            }
-            else if (!isNewStartBeforeStoredStart && !isNewEndAfterStoredEnd) {
-                return true;
+            if (isMidnightInBetween(storedActivityStartTime, storedActivityEndTime)) {
+                boolean isOverlappingBeforeMidnight =
+                        isOverlappingThisActivity(newActivityStartTime, newActivityEndTime,
+                                storedActivityStartTime, LocalTime.MIDNIGHT.minusMinutes(1));
+                boolean isOverlappingAfterMidnight =
+                        isOverlappingThisActivity(newActivityStartTime, newActivityEndTime,
+                                LocalTime.MIDNIGHT, storedActivityEndTime);
+
+                if (isOverlappingBeforeMidnight || isOverlappingAfterMidnight) {
+                    return true;
+                }
+                continue;
             }
 
-            boolean isNewEndAfterStoredStart = newActivityEndTime.isAfter(storedActivityStartTime);
-            if (isNewStartBeforeStoredStart && isNewEndAfterStoredStart ) {
-                return true;
-            }
-
-            boolean isNewStartBeforeStoredEnd = newActivityStartTime.isBefore(storedActivityEndTime);
-            if (!isNewStartBeforeStoredStart && isNewStartBeforeStoredEnd) {
+            if (isOverlappingThisActivity(newActivityStartTime, newActivityEndTime,
+                    storedActivityStartTime, storedActivityEndTime)) {
                 return true;
             }
         }
