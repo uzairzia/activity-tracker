@@ -226,6 +226,10 @@ public class Timetable {
             return false;
         }
 
+        if (newActivityStartTime.equals(newActivityEndTime)) {
+            return false;
+        }
+
         return !(Activity.isOverLappingAnyActivity(newActivityStartTime, newActivityEndTime));
     }
 
