@@ -12,7 +12,7 @@ import java.util.ArrayList;
 public class Timetable {
     private final JFrame mainFrame = new JFrame("Timetable");
     private final JPanel mainPanel = new JPanel(new GridBagLayout());
-    private final DateTimeFormatter timeFormat = DateTimeFormatter.ofPattern("HH:mm:ss");
+    private final DateTimeFormatter timeFormat = DateTimeFormatter.ofPattern("HH:mm");
 
     public static void main(String[] args) {
         Timetable timetable = new Timetable();
@@ -202,7 +202,7 @@ public class Timetable {
     private LocalTime getTimeObject(String timeText) {
         LocalTime timeObject = null;
         try {
-            timeObject = LocalTime.parse(timeText);
+            timeObject = LocalTime.parse(timeText, timeFormat);
         }
         catch (Exception exception) {
             // show error if entered time is invalid
@@ -219,12 +219,15 @@ public class Timetable {
 
     private boolean verifyNewActivity(String startTimeText, String endTimeText) {
         LocalTime newActivityStartTime = this.getTimeObject(startTimeText);
-        LocalTime newActivityEndTime = this.getTimeObject(endTimeText);
-
-        // object was not created due to invalid data
-        if (newActivityStartTime == null || newActivityEndTime == null) {
+        if (newActivityStartTime == null) {
             return false;
         }
+
+        LocalTime newActivityEndTime = this.getTimeObject(endTimeText);
+        if (newActivityEndTime == null) {
+            return false;
+        }
+
 
         if (newActivityStartTime.equals(newActivityEndTime)) {
             return false;
