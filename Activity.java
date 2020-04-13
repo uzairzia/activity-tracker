@@ -1,4 +1,6 @@
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -24,8 +26,8 @@ public class Activity {
 
     private Activity(String[] activityData) {
         // call the constructor with three parameters
-        this(activityData[1],
-            LocalTime.parse(activityData[0], timeFormat),
+        this(activityData[0],
+            LocalTime.parse(activityData[1], timeFormat),
             LocalTime.parse(activityData[2], timeFormat));
     }
 
@@ -77,6 +79,42 @@ public class Activity {
             }
             activitiesList.add(new Activity(activityData));
         }
+    }
+
+    private static void writeToActivitiesFile(String name, String startTime, String endTime) {
+        BufferedWriter bufferedWriter = null;
+        try {
+            // append to file
+             bufferedWriter = new BufferedWriter(
+                    new FileWriter(activitiesFileName, true)
+            );
+            bufferedWriter.write(name + ','
+                            + startTime + ','
+                            + endTime);
+            bufferedWriter.newLine();
+        }
+        catch (IOException exception) {
+            // show an error window
+            // return to avoid NullPointerException
+        }
+        catch (SecurityException exception) {
+            // show an error window
+        }
+        finally {
+            try {
+                bufferedWriter.close();
+            }
+            catch (Exception exception) {
+                // show an error window
+            }
+        }
+    }
+
+    public static void addActivity(String name, String startTime, String endTime) {
+        Activity newActivity = new Activity(new String[]{name, startTime, endTime});
+
+        activitiesList.add(newActivity);
+        writeToActivitiesFile(name, startTime, endTime);
     }
 
     public static ArrayList<Activity> getActivities() {

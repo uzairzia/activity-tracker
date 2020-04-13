@@ -259,7 +259,11 @@ public class Timetable {
             public void actionPerformed(ActionEvent actionEvent) {
                 // validate activity data and verify that no clashing activity
                 if(verifyNewActivity(activityStartTextField.getText(), activityEndTextField.getText())) {
-                    //add activity
+                    Activity.addActivity(activityNameTextField.getText(),
+                                activityStartTextField.getText(),
+                                activityEndTextField.getText()
+                    );
+                    addActivityFrame.dispatchEvent(new WindowEvent(addActivityFrame, WindowEvent.WINDOW_CLOSING));
                 }
             }
         });
