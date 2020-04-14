@@ -94,11 +94,7 @@ public class Activity {
             bufferedWriter.newLine();
         }
         catch (IOException exception) {
-            // show an error window
-            // return to avoid NullPointerException
-        }
-        catch (SecurityException exception) {
-            // show an error window
+
         }
         finally {
             try {

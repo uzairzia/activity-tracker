@@ -199,19 +199,25 @@ public class Timetable {
         this.displayActivity(noActivityInstance, "next");
     }
 
-    private LocalTime getTimeObject(String timeText) {
+    private void displayErrorDialog(JFrame frame, String message) {
+        JOptionPane.showMessageDialog(
+                frame,
+                message,
+                "Error",
+                JOptionPane.ERROR_MESSAGE
+        );
+    }
+
+    private LocalTime getTimeObject(String timeText, JFrame parentFrame) {
         LocalTime timeObject = null;
+
         try {
             timeObject = LocalTime.parse(timeText, timeFormat);
         }
         catch (Exception exception) {
-            // show error if entered time is invalid
-            JOptionPane.showMessageDialog(
-                    mainFrame,
-                    "Invalid time: \'" + timeText + "\' Please enter time in the format HH:mm",
-                    "Error",
-                    JOptionPane.ERROR_MESSAGE
-            );
+            // entered time is invalid
+            displayErrorDialog(parentFrame,
+                    "Invalid time: \'" + timeText + "\' Please enter time in the format HH:mm");
         }
 
         return timeObject;
@@ -224,30 +230,37 @@ public class Timetable {
         return new String[] {nameTextCleaned, startTimeTextCleaned, endTimeTextCleaned};
     }
 
-    private boolean verifyNewActivity(String[] inputStrings) {
+    private boolean verifyNewActivity(String[] inputStrings, JFrame parentFrame) {
         String nameText = inputStrings[0];
         String startTimeText = inputStrings[1];
         String endTimeText = inputStrings[2];
 
         if (nameText.isEmpty()) {
+            displayErrorDialog(parentFrame, "Activity name cannot be empty.");
             return false;
         }
 
-        LocalTime newActivityStartTime = this.getTimeObject(startTimeText);
+        LocalTime newActivityStartTime = this.getTimeObject(startTimeText, parentFrame);
         if (newActivityStartTime == null) {
             return false;
         }
 
-        LocalTime newActivityEndTime = this.getTimeObject(endTimeText);
+        LocalTime newActivityEndTime = this.getTimeObject(endTimeText, parentFrame);
         if (newActivityEndTime == null) {
             return false;
         }
 
         if (newActivityStartTime.equals(newActivityEndTime)) {
+            displayErrorDialog(parentFrame, "Start and end time cannot be same.");
             return false;
         }
 
-        return !(Activity.isOverLappingAnyActivity(newActivityStartTime, newActivityEndTime));
+        if (Activity.isOverLappingAnyActivity(newActivityStartTime, newActivityEndTime)) {
+            displayErrorDialog(parentFrame, "This activity overlaps with an existing activity.");
+            return false;
+        }
+
+        return true;
     }
 
     private void displayAddActivityFrame() {
@@ -283,7 +296,7 @@ public class Timetable {
                                 activityStartTextField.getText(),
                                 activityEndTextField.getText());
 
-                if (verifyNewActivity(activityData)) {
+                if (verifyNewActivity(activityData, addActivityFrame)) {
                     Activity.addActivity(activityData);
                     addActivityFrame.dispatchEvent(new WindowEvent(addActivityFrame, WindowEvent.WINDOW_CLOSING));
                 }
