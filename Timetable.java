@@ -248,6 +248,14 @@ public class Timetable {
             displayErrorDialog(parentFrame, "Activity name cannot be empty.");
             return false;
         }
+        if (startTimeText.isEmpty()) {
+            displayErrorDialog(parentFrame, "Activity start time cannot be empty.");
+            return false;
+        }
+        if (endTimeText.isEmpty()) {
+            displayErrorDialog(parentFrame, "Activity end time cannot be empty.");
+            return false;
+        }
 
         LocalTime newActivityStartTime = this.getTimeObject(startTimeText, parentFrame);
         if (newActivityStartTime == null) {
