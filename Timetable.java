@@ -208,6 +208,15 @@ public class Timetable {
         );
     }
 
+    private void displayInfoDialog(JFrame frame, String message) {
+        JOptionPane.showMessageDialog(
+                frame,
+                message,
+                "Information",
+                JOptionPane.INFORMATION_MESSAGE
+        );
+    }
+
     private LocalTime getTimeObject(String timeText, JFrame parentFrame) {
         LocalTime timeObject = null;
 
@@ -298,6 +307,7 @@ public class Timetable {
 
                 if (verifyNewActivity(activityData, addActivityFrame)) {
                     Activity.addActivity(activityData);
+                    displayInfoDialog(addActivityFrame, "Successfully added new activity.");
                     addActivityFrame.dispatchEvent(new WindowEvent(addActivityFrame, WindowEvent.WINDOW_CLOSING));
                 }
             }
