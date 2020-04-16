@@ -24,7 +24,10 @@ public class Timetable {
         this.displayNextActivity();
         this.displayMenuBar();
 
-        this.setWindowParameters(JFrame.EXIT_ON_CLOSE, 300, 100, true );
+        this.mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.mainFrame.setVisible(true);
+        this.mainFrame.add(mainPanel, "Center");
+        this.mainFrame.pack();
     }
 
     private void setTime(LocalTime time, JLabel timeLabel) {
@@ -352,13 +355,5 @@ public class Timetable {
         menuBar.add(actionsMenu);
 
         this.mainFrame.setJMenuBar(menuBar);
-    }
-
-    private void setWindowParameters(int onClose, int width, int height, boolean isVisible) {
-        // operation to perform when window closed
-        this.mainFrame.setDefaultCloseOperation(onClose);
-        this.mainFrame.setVisible(isVisible);
-        this.mainFrame.add(mainPanel, "Center");
-        this.mainFrame.pack();
     }
 }
