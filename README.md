@@ -1,2 +1,2 @@
-# Timetable
-A simplistic Java application for automatic timetable tracking developed using Swing
+# Activity Tracker
+Java (Swing) GUI application for personal activity tracking
