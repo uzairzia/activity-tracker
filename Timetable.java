@@ -13,6 +13,7 @@ public class Timetable {
     private final JFrame mainFrame = new JFrame("Timetable");
     private final JPanel mainPanel = new JPanel(new GridBagLayout());
     private final DateTimeFormatter timeFormat = DateTimeFormatter.ofPattern("HH:mm");
+    private Activity currentActivity;
 
     public static void main(String[] args) {
         Timetable timetable = new Timetable();
@@ -192,8 +193,8 @@ public class Timetable {
     }
 
     private void displayCurrentActivity() {
-        Activity currentActivity = this.getCurrentActivity();
-        this.displayActivity(currentActivity, "current");
+        this.currentActivity = this.getCurrentActivity();
+        this.displayActivity(this.currentActivity, "current");
     }
 
     private void displayNextActivity() {
