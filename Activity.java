@@ -123,6 +123,24 @@ public class Activity {
         return new Activity("No Activity", LocalTime.MIDNIGHT, LocalTime.MIDNIGHT);
     }
 
+    // sort activities in list according to their starting time
+    public static void sortActivities() {
+        Activity.activitiesList.sort(new Comparator<Activity>() {
+            @Override
+            public int compare(Activity activity, Activity t1) {
+                if (activity.getStartTime().isAfter(t1.getStartTime())) {
+                    return 1;
+                }
+                else if (activity.getStartTime().isBefore(t1.getStartTime())){
+                    return -1;
+                }
+                else {
+                    return 0;
+                }
+            }
+        });
+    }
+
     private static boolean isMidnightInBetween(LocalTime startTime, LocalTime endTime) {
         return startTime.isAfter(endTime);
     }

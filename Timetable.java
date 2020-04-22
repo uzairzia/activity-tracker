@@ -13,6 +13,7 @@ public class Timetable {
     private final JFrame mainFrame = new JFrame("Timetable");
     private final JPanel mainPanel = new JPanel(new GridBagLayout());
     private final DateTimeFormatter timeFormat = DateTimeFormatter.ofPattern("HH:mm");
+    private Activity currentActivity;
 
     public static void main(String[] args) {
         Timetable timetable = new Timetable();
@@ -71,6 +72,22 @@ public class Timetable {
         }
 
         return currentActivity;
+    }
+
+    private Activity getNextActivity() {
+        ArrayList<Activity> activities = this.getActivities();
+        Activity.sortActivities();
+
+        // index of current activity in the sorted list
+        int currentActivityIndex = activities.indexOf(this.currentActivity);
+
+        // if current activity is the today's last activity,
+        // then next activity is tomorrow's first activity
+        if (currentActivityIndex + 1 == activities.size()) {
+            return activities.get(0);
+        }
+
+        return activities.get(currentActivityIndex + 1);
     }
 
     private void displayCurrentTime() {
@@ -192,14 +209,13 @@ public class Timetable {
     }
 
     private void displayCurrentActivity() {
-        Activity currentActivity = this.getCurrentActivity();
-        this.displayActivity(currentActivity, "current");
+        this.currentActivity = this.getCurrentActivity();
+        this.displayActivity(this.currentActivity, "current");
     }
 
     private void displayNextActivity() {
-        // dummy test value
-        Activity noActivityInstance = Activity.getNoActivityInstance();
-        this.displayActivity(noActivityInstance, "next");
+        Activity nextActivity = this.getNextActivity();
+        this.displayActivity(nextActivity, "next");
     }
 
     private void displayErrorDialog(JFrame frame, String message) {
