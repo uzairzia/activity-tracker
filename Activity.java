@@ -7,6 +7,7 @@ import java.nio.file.Paths;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 public class Activity {
@@ -120,6 +121,24 @@ public class Activity {
 
     public static Activity getNoActivityInstance() {
         return new Activity("No Activity", LocalTime.MIDNIGHT, LocalTime.MIDNIGHT);
+    }
+
+    // sort activities in list according to their starting time
+    public static void sortActivities() {
+        Activity.activitiesList.sort(new Comparator<Activity>() {
+            @Override
+            public int compare(Activity activity, Activity t1) {
+                if (activity.getStartTime().isAfter(t1.getStartTime())) {
+                    return 1;
+                }
+                else if (activity.getStartTime().isBefore(t1.getStartTime())){
+                    return -1;
+                }
+                else {
+                    return 0;
+                }
+            }
+        });
     }
 
     private static boolean isMidnightInBetween(LocalTime startTime, LocalTime endTime) {

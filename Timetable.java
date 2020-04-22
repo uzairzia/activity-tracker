@@ -74,6 +74,22 @@ public class Timetable {
         return currentActivity;
     }
 
+    private Activity getNextActivity() {
+        ArrayList<Activity> activities = this.getActivities();
+        Activity.sortActivities();
+
+        // index of current activity in the sorted list
+        int currentActivityIndex = activities.indexOf(this.currentActivity);
+
+        // if current activity is the today's last activity,
+        // then next activity is tomorrow's first activity
+        if (currentActivityIndex + 1 == activities.size()) {
+            return activities.get(0);
+        }
+
+        return activities.get(currentActivityIndex + 1);
+    }
+
     private void displayCurrentTime() {
         // add label to panel
         JPanel currentTimePanel = new JPanel();
@@ -198,9 +214,8 @@ public class Timetable {
     }
 
     private void displayNextActivity() {
-        // dummy test value
-        Activity noActivityInstance = Activity.getNoActivityInstance();
-        this.displayActivity(noActivityInstance, "next");
+        Activity nextActivity = this.getNextActivity();
+        this.displayActivity(nextActivity, "next");
     }
 
     private void displayErrorDialog(JFrame frame, String message) {
