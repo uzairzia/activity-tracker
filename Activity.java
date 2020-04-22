@@ -6,8 +6,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class Activity {
     private final String name;
@@ -114,7 +113,9 @@ public class Activity {
     }
 
     public static ArrayList<Activity> getActivities() {
-        Activity.readActivitiesFile();
+        if (activitiesList.isEmpty()) {
+            Activity.readActivitiesFile();
+        }
         return Activity.activitiesList;
     }
 
