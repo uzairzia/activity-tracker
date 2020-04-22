@@ -16,7 +16,7 @@ public class TrackerGUI {
     private Activity currentActivity;
 
     public static void main(String[] args) {
-        TrackerGUI timetable = new TrackerGUI();
+        TrackerGUI trackerGUI = new TrackerGUI();
     }
 
     private TrackerGUI() {
