@@ -9,17 +9,17 @@ import java.time.format.FormatStyle;
 import java.awt.color.*;
 import java.util.ArrayList;
 
-public class Timetable {
+public class TrackerGUI {
     private final JFrame mainFrame = new JFrame("Timetable");
     private final JPanel mainPanel = new JPanel(new GridBagLayout());
     private final DateTimeFormatter timeFormat = DateTimeFormatter.ofPattern("HH:mm");
     private Activity currentActivity;
 
     public static void main(String[] args) {
-        Timetable timetable = new Timetable();
+        TrackerGUI timetable = new TrackerGUI();
     }
 
-    private Timetable() {
+    private TrackerGUI() {
         this.displayCurrentTime();
         this.displayCurrentActivity();
         this.displayNextActivity();
